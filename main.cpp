@@ -1,53 +1,50 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 int main() {
-    double num1, num2;
-    char op;
+    // Seed the random number generator using current time
+    srand(time(0));
+    
+    // Generate a random number between 1 and 100
+    int randomNumber = rand() % 100 + 1;
+    int userGuess = 0;
+    int attempts = 0;
 
     cout << "=======================================" << endl;
-    cout << "          SIMPLE CALCULATOR            " << endl;
+    cout << "      WELCOME TO NUMBER GUESSING GAME   " << endl;
     cout << "=======================================" << endl;
+    cout << "I have chosen a random number between 1 and 100." << endl;
+    cout << "Can you guess what it is?\n" << endl;
 
-    // Input first number
-    cout << "Enter first number: ";
-    cin >> num1;
+    // Loop until the user guesses the correct number
+    while (userGuess != randomNumber) {
+        cout << "Enter your guess: ";
+        cin >> userGuess;
 
-    // Input operator
-    cout << "Enter operator (+, -, *, /): ";
-    cin >> op;
+        // Input validation
+        if (cin.fail()) {
+            cin.clear(); // Clear error flags
+            cin.ignore(10000, '\n'); // Ignore invalid input
+            cout << "Invalid input! Please enter a valid number.\n" << endl;
+            continue;
+        }
 
-    // Input second number
-    cout << "Enter second number: ";
-    cin >> num2;
+        attempts++;
 
-    cout << "\n---------------------------------------" << endl;
-
-    // Perform calculation based on operator
-    switch (op) {
-        case '+':
-            cout << "Result: " << num1 << " + " << num2 << " = " << (num1 + num2) << endl;
-            break;
-        case '-':
-            cout << "Result: " << num1 << " - " << num2 << " = " << (num1 - num2) << endl;
-            break;
-        case '*':
-            cout << "Result: " << num1 << " * " << num2 << " = " << (num1 * num2) << endl;
-            break;
-        case '/':
-            if (num2 != 0) {
-                cout << "Result: " << num1 << " / " << num2 << " = " << (num1 / num2) << endl;
-            } else {
-                cout << "Error: Division by zero is not allowed!" << endl;
-            }
-            break;
-        default:
-            cout << "Error: Invalid operator! Please use +, -, *, or /." << endl;
-            break;
+        if (userGuess > randomNumber) {
+            cout << "Too High! Try guessing a lower number.\n" << endl;
+        } else if (userGuess < randomNumber) {
+            cout << "Too Low! Try guessing a higher number.\n" << endl;
+        } else {
+            cout << "\n---------------------------------------" << endl;
+            cout << "🎉 Congratulations! You guessed the correct number!" << endl;
+            cout << "Total attempts taken: " << attempts << endl;
+            cout << "---------------------------------------" << endl;
+        }
     }
-
-    cout << "---------------------------------------" << endl;
 
     return 0;
 }
